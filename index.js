@@ -43,13 +43,16 @@ io.on("connection",(socket)=>{
         nameToPositionMapping.set(name,playerPositon)
         nameTosocketMapping.set(name,socket.id)
         socketTonameMapping.set(socket.id,name)
-        socket.broadcast.emit("User-joined",name)
+        socket.broadcast.emit("User-joined",{name,x,y})
     })
     socket.on("Adding-player", (data) => {
-        console.log(data);
-        socket.emit("NewUser-adding",data)
+        console.log(data); 
+        socket.broadcast.emit("NewUser-adding",data)
       });
-
+    socket.on("player-moving",(data)=>{
+        {}
+        console.log("This is player moving ",data)
+    })
     socket.on("disconnect",()=>{
         console.log("Disconnected")
         players = {}
