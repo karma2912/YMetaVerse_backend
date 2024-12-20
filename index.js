@@ -45,6 +45,14 @@ io.on("connection",(socket)=>{
         socketTonameMapping.set(socket.id,name)
         socket.broadcast.emit("User-joined",{name,x,y})
     })
+
+
+    socket.on("Adding-player",(data)=>{
+        const {name,x,y} = data
+        const socketId = nameTosocketMapping.get(name)
+        const fromName = socketTonameMapping.get(socket.id)
+        socket.to(socketId).emit("Incoming-call",{fromName,x,y})
+    })
     socket.on("disconnect",()=>{
         console.log("Disconnected")
         players = {}
