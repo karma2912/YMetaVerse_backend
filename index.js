@@ -48,10 +48,23 @@ io.on("connection",(socket)=>{
 
 
     socket.on("Adding-player",(data)=>{
-        const {name,x,y} = data
+        const {name} = data
         const socketId = nameTosocketMapping.get(name)
         const fromName = socketTonameMapping.get(socket.id)
-        socket.to(socketId).emit("Incoming-call",{fromName,x,y})
+        const pos = nameToPositionMapping.get(fromName)
+        socket.to(socketId).emit("Incoming-call",{name,fromName,pos})
+    })
+
+    socket.on("player-moved",(data)=>{
+        const {finalName,x,y} = data
+        console.log("this is finalname",finalName,x,y)
+        let playerPositon = {x,y}
+        const fromName = socketTonameMapping.get(socket.id)
+        const socketId = nameTosocketMapping.get("Yash")
+        console.log("this is fromname",fromName,x,y)
+        socket.to(socketId).emit("position-changed",{fromName,playerPositon})
+        
+
     })
     socket.on("disconnect",()=>{
         console.log("Disconnected")
