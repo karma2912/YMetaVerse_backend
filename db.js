@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 const mongoURI = "mongodb://localhost:27017/ymetaverse"
 
 const connectToMongo = async () => {
@@ -12,4 +12,5 @@ catch(error) {
     process.exit()
 }
 }
+
 module.exports = connectToMongo;

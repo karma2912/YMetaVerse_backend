@@ -5,7 +5,6 @@ const app = express()
 const cors = require("cors")
 connectToMongo()
 
-
 // here are the api's which were made using express.js
 app.use(express.json())
 app.use(cors())
@@ -45,15 +44,17 @@ io.on("connection",(socket)=>{
         socketTonameMapping.set(socket.id,name)
         socket.broadcast.emit("User-joined",{name,x,y})
     })
-
-
+    
+    
     socket.on("Adding-player",(data)=>{
         const {name} = data
         const socketId = nameTosocketMapping.get(name)
         const fromName = socketTonameMapping.get(socket.id)
+        console.log("This is from name",fromName)
         const pos = nameToPositionMapping.get(fromName)
-        socket.to(socketId).emit("Incoming-call",{name,fromName,pos})
+        socket.to(socketId).emit("Incoming-call",{fromName,pos})
     })
+
 
     socket.on("player-moved",(data)=>{
         const {finalName,x,y} = data
