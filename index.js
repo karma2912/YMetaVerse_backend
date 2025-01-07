@@ -53,13 +53,14 @@ io.on("connection",(socket)=>{
         console.log("This is from name",fromName)
         const pos = nameToPositionMapping.get(fromName)
         socket.to(socketId).emit("Incoming-call",{players,fromName,pos})
+        console.log("Socket has been emmited")
     })
 
 
     socket.on("player-moved",(data)=>{
         const {finalName,x,y} = data
         console.log("this is finalname",finalName,x,y)
-        let playerPositon = {x,y}
+        let playerPosition = {x,y}
         const fromName = socketTonameMapping.get(socket.id)
         if(finalName==="Rajak"){
             this.name = "Yash"
@@ -69,7 +70,7 @@ io.on("connection",(socket)=>{
         }
         const socketId = nameTosocketMapping.get(this.name)
         console.log("this is fromname",fromName,x,y)
-        socket.to(socketId).emit("position-changed",{fromName,playerPositon})
+        socket.to(socketId).emit("position-changed",{fromName,playerPosition})
         
 
     })
